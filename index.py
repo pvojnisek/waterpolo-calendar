@@ -53,6 +53,7 @@ def sniff_date_from_webpage(competition_url: str) -> list:
 
 
 def generate_calendar(competition_id: str, teamname: str):
+    base_url = "https://waterpolo.hu"
     competition_url = 'https://waterpolo.hu/bajnoksagok/?szures[bajnoksag_id]=' + competition_id
     competition = sniff_date_from_webpage(competition_url)
 
@@ -77,7 +78,7 @@ def generate_calendar(competition_id: str, teamname: str):
     for match in competition_filtered:
         event = Event()
         event.name = f'{match["teams"][0]} - {match["teams"][1]}: {match["results"]}'
-        event.description = f'adatlap: {match["match_url"]} \nBajnokság: {competition_url}'
+        event.description = f'adatlap: {base_url}{match["match_url"]} \nBajnokság: {competition_url} \n<a href="{competition_url}">Bajnokság</a>'
         event.begin = arrow.get(match['date_str'], "YYYY. MMM. D. H:mm", locale="hu", tzinfo="CET")
         event.duration = {'hours': 1}
         #event.add('DTSTAMP', datetime.now())
