@@ -77,7 +77,7 @@ def generate_calendar(competition_id: str, teamname: str):
         event = Event()
         event.name = f'{match["teams"][0]} - {match["teams"][1]}: {match["results"]}'
 
-        event.begin = arrow.get(match['date_str'], "YYYY. MMM. D. H:mm", locale="hu")
+        event.begin = arrow.get(match['date_str'], "YYYY. MMM. D. H:mm", locale="hu", tzinfo="CET")
         event.duration = {'hours': 1}
 
         event.location = match['location']
