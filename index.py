@@ -7,6 +7,7 @@ import arrow
 from ics import Calendar, Event
 from fastapi import FastAPI, Response
 
+from caching import Caching
 
 app = FastAPI()
 
@@ -84,10 +85,14 @@ def generate_calendar(competition_id: str, teamname: str):
     return calendar.serialize()
 
 
+cache = Caching(4*60*60, generate_calendar)
+
+
 @app.get("/waterpolo/{competition_id}/{teamname}")
 async def read_item(competition_id: str, teamname: str):
 
-    return Response(content=generate_calendar(competition_id, teamname), media_type="text/calendar")
+    return Response(content=cache.get((competition_id, teamname)), media_type="text/calendar")
+    # return Response(content=generate_calendar(competition_id, teamname), media_type="text/calendar")
 
 
 # @app.get("/index.html")
