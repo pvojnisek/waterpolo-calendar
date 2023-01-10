@@ -44,7 +44,7 @@ def sniff_date_from_webpage(competition_url: str) -> list:
                 mtch['report_url'] = href
             elif '/meccs/' in href:
                 mtch['match_url'] = href
-                mtch['results'] = link.text
+                mtch['result'] = link.text
             elif 'www.google.com/calendar/event' in href:
                 mtch['google_calendar'] = href
             else:
@@ -77,11 +77,11 @@ def generate_calendar(competition_id: str, teamname: str):
 
     for match in competition_filtered:
         event = Event()
-        event.name = f'{match["teams"][0]} - {match["teams"][1]}: {match["results"]}'
-        event.description = f'adatlap: {base_url}{match["match_url"]} \nBajnokság: {competition_url} \n<a href="{competition_url}">Bajnokság</a>'
+        result = (': ' + match['result']) if match['result'] != '0-0' else ''
+        event.name = f'{match["teams"][0]} - {match["teams"][1]}{result}'
+        event.description = f'<a href="{base_url}{match["match_url"]}">Adatlap</a>\n<a href="{competition_url}">Bajnokság</a>'
         event.begin = arrow.get(match['date_str'], "YYYY. MMM. D. H:mm", locale="hu", tzinfo="CET")
         event.duration = {'hours': 1}
-        #event.add('DTSTAMP', datetime.now())
         event.last_modified = datetime.now()
         event.location = match['location']
         calendar.events.add(event)
