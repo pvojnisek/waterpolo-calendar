@@ -6,7 +6,7 @@ from bs4 import BeautifulSoup
 import arrow
 
 from ics import Calendar, Event
-from fastapi import FastAPI, Response
+from fastapi import FastAPI, Response, responses
 from fastapi_utils.tasks import repeat_every
 
 from caching import Caching
@@ -101,6 +101,13 @@ async def update_cache() -> None:
 async def read_item(competition_id: str, teamname: str):
     return Response(content=cache.get((competition_id, teamname)), media_type="text/calendar")
 
+
+@app.get("/cached_calendars")
+async def cached_calendars() -> responses.JSONResponse:
+    retval = list()
+    for key, cal in cache.get_cache().items():
+        retval.append({'tournament': key[0], 'team': key[1], 'size': len(cal)})
+    return responses.JSONResponse(retval)
 
 # @app.get("/index.html")
 # async def read_html():

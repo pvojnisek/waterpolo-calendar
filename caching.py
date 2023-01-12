@@ -1,5 +1,5 @@
 import time
-from typing import Tuple
+from typing import Tuple, Dict
 
 
 class Caching:
@@ -40,6 +40,9 @@ class Caching:
             return value
 
         return value
+
+    def get_cache(self) -> Dict:
+        return self.cache
 
     def update_value(self, key):
         params = (key,)
