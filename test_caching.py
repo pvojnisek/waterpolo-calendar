@@ -56,3 +56,17 @@ class CachingTest(unittest.TestCase):
         sleep(2)
         self.assertNotEqual(val, ch.get(('s1', 's2', 42)))
         self.assertNotEqual(val, ch.get(('s1', 's2', 43)))
+
+    def test_update_value(self):
+        ch = Caching(10, random_number)
+        val = ch.get('first')
+        ch.update_value('first')
+        self.assertNotEqual(val, ch.get('first'))
+
+    def test_update_all_values(self):
+        ch = Caching(10, random_number)
+        val1 = ch.get('first')
+        val2 = ch.get('second')
+        ch.update_all_values()
+        self.assertNotEqual(val1, ch.get('first'))
+        self.assertNotEqual(val2, ch.get('second'))
