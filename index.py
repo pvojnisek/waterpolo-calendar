@@ -46,6 +46,7 @@ def sniff_date_from_webpage(competition_url: str) -> list:
             elif '/meccs/' in href:
                 mtch['match_url'] = href
                 mtch['result'] = link.text
+                mtch['match_id'] = href.split("/")[-1]
             elif 'www.google.com/calendar/event' in href:
                 mtch['google_calendar'] = href
             else:
@@ -78,9 +79,14 @@ def generate_calendar(competition_id: str, teamname: str):
 
     for match in competition_filtered:
         event = Event()
-        result = (': ' + match['result']) if match['result'] != '0-0' else ''
+        is_game_finished = match['result'] != '0-0'
+        result = (': ' + match['result']) if is_game_finished else ''
         event.name = f'{match["teams"][0]} - {match["teams"][1]}{result}'
-        event.description = f'<a href="{base_url}{match["match_url"]}">Adatlap</a>\n<a href="{competition_url}">Bajnokság</a>'
+        if not is_game_finished:
+            live_link = f'\n<a href="http://waterpololive.webpont.com/?{match["match_id"]}">Élő közvetítés</a>' if "match_id" in match else ""
+        else:
+            live_link = ""
+        event.description = f'<a href="{base_url}{match["match_url"]}">Adatlap</a>\n<a href="{competition_url}">Bajnokság</a>{live_link}'
         event.begin = arrow.get(match['date_str'], "YYYY. MMM. D. H:mm", locale="hu", tzinfo="CET")
         event.duration = {'hours': 1}
         event.last_modified = datetime.now()
