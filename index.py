@@ -109,6 +109,31 @@ async def cached_calendars() -> responses.JSONResponse:
         retval.append({'tournament': key[0], 'team': key[1], 'size': len(cal)})
     return responses.JSONResponse(retval)
 
+
+@app.get("/")
+async def index_page() -> responses.HTMLResponse:
+    cache_size = len(cache.get_cache())
+    return responses.HTMLResponse(f"""
+    <htnk>
+        <body>
+            <p>
+                <a href="cached_calendars">Cached calendars</a>
+            </p>
+            <p>cache size: {cache_size}</p>
+            <div>
+                <h2>Example calendars</h2>
+                <ul>
+                    <li><a href="waterpolo/680/KSI">680 - KSI</a></li>
+                    <li><a href="waterpolo/703/KSI">703 - KSI</a></li>
+                    <li><a href="waterpolo/704/KSI">704 - KSI</a></li>
+                <ul>
+                <p>You can add these url-s to your calendar feeds. Further help to add to your calendar <a href="https://support.google.com/calendar/answer/37100">Add URL to your Google Calendar</a></p>
+            </div>
+        </body>
+    <htnk>
+    """)
+
+
 # @app.get("/index.html")
 # async def read_html():
 #    file_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "index.html")
