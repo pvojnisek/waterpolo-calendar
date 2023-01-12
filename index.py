@@ -6,7 +6,8 @@ from bs4 import BeautifulSoup
 import arrow
 
 from ics import Calendar, Event
-from fastapi import FastAPI, Response
+from fastapi import FastAPI, Response, responses
+from fastapi_utils.tasks import repeat_every
 
 from caching import Caching
 
@@ -88,14 +89,49 @@ def generate_calendar(competition_id: str, teamname: str):
     return calendar.serialize()
 
 
-cache = Caching(4*60*60, generate_calendar)
+cache = Caching(24*60*60, generate_calendar)
+
+
+@repeat_every(seconds=4*60*60)
+async def update_cache() -> None:
+    cache.update_all_values()
 
 
 @app.get("/waterpolo/{competition_id}/{teamname}")
 async def read_item(competition_id: str, teamname: str):
-
     return Response(content=cache.get((competition_id, teamname)), media_type="text/calendar")
-    # return Response(content=generate_calendar(competition_id, teamname), media_type="text/calendar")
+
+
+@app.get("/cached_calendars")
+async def cached_calendars() -> responses.JSONResponse:
+    retval = list()
+    for key, cal in cache.get_cache().items():
+        retval.append({'tournament': key[0], 'team': key[1], 'size': len(cal)})
+    return responses.JSONResponse(retval)
+
+
+@app.get("/")
+async def index_page() -> responses.HTMLResponse:
+    cache_size = len(cache.get_cache())
+    return responses.HTMLResponse(f"""
+    <htnk>
+        <body>
+            <p>
+                <a href="cached_calendars">Cached calendars</a>
+            </p>
+            <p>cache size: {cache_size}</p>
+            <div>
+                <h2>Example calendars</h2>
+                <ul>
+                    <li><a href="waterpolo/680/KSI">680 - KSI</a></li>
+                    <li><a href="waterpolo/703/KSI">703 - KSI</a></li>
+                    <li><a href="waterpolo/704/KSI">704 - KSI</a></li>
+                <ul>
+                <p>You can add these url-s to your calendar feeds. Further help to add to your calendar <a href="https://support.google.com/calendar/answer/37100">Add URL to your Google Calendar</a></p>
+            </div>
+        </body>
+    <htnk>
+    """)
 
 
 # @app.get("/index.html")
