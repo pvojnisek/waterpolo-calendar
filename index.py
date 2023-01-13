@@ -4,6 +4,7 @@ from datetime import datetime
 import requests
 from bs4 import BeautifulSoup
 import arrow
+import os
 
 from ics import Calendar, Event
 from fastapi import FastAPI, Response, responses
@@ -12,11 +13,6 @@ from fastapi_utils.tasks import repeat_every
 from caching import Caching
 
 app = FastAPI()
-
-
-# @app.get("/")
-# async def read_root():
-#    return {"Hello": "World"}
 
 
 def sniff_date_from_webpage(competition_url: str) -> list:
@@ -95,7 +91,7 @@ def generate_calendar(competition_id: str, teamname: str):
     return calendar.serialize()
 
 
-cache = Caching(24*60*60, generate_calendar)
+cache = Caching(24*60*60, generate_calendar, cache_filename=os.environ.get('CACHE_FILE') or 'caching.tmp')
 
 
 @repeat_every(seconds=4*60*60)
