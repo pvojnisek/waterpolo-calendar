@@ -1,4 +1,5 @@
 .vercel
 __pycache__/*.*
+*.pyc
 *.tmp
 .env

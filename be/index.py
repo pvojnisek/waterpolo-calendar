@@ -1,6 +1,6 @@
 # main.py
 
-from datetime import datetime
+from datetime import datetime, timedelta
 import requests
 from bs4 import BeautifulSoup
 import arrow
@@ -24,7 +24,8 @@ def sniff_date_from_webpage(competition_url: str) -> list:
     matches = soup.find_all("tr", class_='gamerow')
 
     for match in matches:
-        mtch = {'teams': []}
+        mtch = {}
+        mtch['teams'] = []
         competition.append(mtch)
         mtch['rawdata'] = mtch
         #location = match.td
@@ -84,7 +85,7 @@ def generate_calendar(competition_id: str, teamname: str):
             live_link = ""
         event.description = f'<a href="{base_url}{match["match_url"]}">Adatlap</a>\n<a href="{competition_url}">Bajnokság</a>{live_link}'
         event.begin = arrow.get(match['date_str'], "YYYY. MMM. D. H:mm", locale="hu", tzinfo="CET")
-        event.duration = {'hours': 1}
+        event.duration = timedelta(hours=1)
         event.last_modified = datetime.now()
         event.location = match['location']
         calendar.events.add(event)
