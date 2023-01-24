@@ -1,0 +1,18 @@
+version: '3'
+services:
+  frontend:
+    build: fe
+    links:
+      - reverse-proxy
+
+  backend:
+    build: be
+    links:
+      - reverse-proxy
+
+  reverse-proxy:
+    image: nginx:latest
+    ports:
+      - "8000:8080"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf

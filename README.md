@@ -13,3 +13,10 @@ Production:
 Preview: 
  - https://calendar-pvojnisek.vercel.app/waterpolo/680/KSI?nocache
  - https://calendar-pvojnisek.vercel.app/waterpolo/704/KSI?nocache
+
+# Dev env
+
+Starting environments:
+
+ - backend: in the 'be/src/' directory: ```uvicorn index:app --reload```
+ - frontend: in the 'fe/' directory: ```./start-dev.sh```

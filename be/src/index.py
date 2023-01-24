@@ -1,5 +1,3 @@
-# main.py
-
 from datetime import datetime, timedelta
 import requests
 from bs4 import BeautifulSoup
@@ -9,10 +7,23 @@ import os
 from ics import Calendar, Event
 from fastapi import FastAPI, Response, responses
 from fastapi_utils.tasks import repeat_every
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import HTMLResponse, PlainTextResponse
 
 from caching import Caching
 
 app = FastAPI()
+
+if os.environ.get('MODE') == 'DEVELOPMENT' or True:
+    """Only in development envirionent"""
+
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=["*"],
+        allow_credentials=True,
+        allow_methods=["*"],
+        allow_headers=["*"],
+    )
 
 
 def sniff_date_from_webpage(competition_url: str) -> list:
@@ -100,12 +111,12 @@ async def update_cache() -> None:
     cache.update_all_values()
 
 
-@app.get("/waterpolo/{competition_id}/{teamname}")
+@app.get("/waterpolo/{competition_id}/{teamname}", response_class=PlainTextResponse)
 async def read_item(competition_id: str, teamname: str):
     return Response(content=cache.get((competition_id, teamname)), media_type="text/calendar")
 
 
-@app.get("/cached_calendars")
+@app.get("/waterpolo/cached_calendars")
 async def cached_calendars() -> responses.JSONResponse:
     retval = list()
     for key, cal in cache.get_cache().items():
@@ -113,16 +124,16 @@ async def cached_calendars() -> responses.JSONResponse:
     return responses.JSONResponse(retval)
 
 
-@app.get("/")
+@app.get("/", response_class=HTMLResponse)
 async def index_page() -> responses.HTMLResponse:
     cache_size = len(cache.get_cache())
     return responses.HTMLResponse(f"""
-    <htnk>
+    <html>
         <body>
             <p>
                 <a href="cached_calendars">Cached calendars</a>
             </p>
-            <p>cache size: {cache_size}</p>
+            <p>Number of cached calendars: {cache_size}</p>
             <div>
                 <h2>Example calendars</h2>
                 <ul>
@@ -133,7 +144,7 @@ async def index_page() -> responses.HTMLResponse:
                 <p>You can add these url-s to your calendar feeds. Further help to add to your calendar <a href="https://support.google.com/calendar/answer/37100">Add URL to your Google Calendar</a></p>
             </div>
         </body>
-    <htnk>
+    </html>
     """)
 
 
