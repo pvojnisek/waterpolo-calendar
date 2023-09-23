@@ -14,11 +14,6 @@ from caching import Caching
 app = FastAPI()
 
 
-# @app.get("/")
-# async def read_root():
-#    return {"Hello": "World"}
-
-
 def sniff_date_from_webpage(competition_url: str) -> list:
     competition = list()
 
@@ -129,9 +124,8 @@ async def index_page() -> responses.HTMLResponse:
             <div>
                 <h2>Example calendars</h2>
                 <ul>
-                    <li><a href="waterpolo/680/KSI">680 - KSI</a></li>
-                    <li><a href="waterpolo/703/KSI">703 - KSI</a></li>
-                    <li><a href="waterpolo/704/KSI">704 - KSI</a></li>
+                    <li><a href="waterpolo/758/KSI">KSI Országos serdülő bajnokság</a></li>
+                    <li><a href="waterpolo/768/KSI">KSI Budapest serdülő bajnokság</a></li>
                 <ul>
                 <p>You can add these url-s to your calendar feeds. Further help to add to your calendar <a href="https://support.google.com/calendar/answer/37100">Add URL to your Google Calendar</a></p>
             </div>
