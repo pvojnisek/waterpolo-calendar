@@ -55,8 +55,8 @@ def sniff_date_from_webpage(competition_url: str) -> list:
 
 
 def generate_calendar(competition_id: str, teamname: str):
-    base_url = "https://waterpolo.hu"
-    competition_url = 'https://waterpolo.hu/bajnoksagok/?szures[bajnoksag_id]=' + competition_id
+    base_url = "https://mvlsz.webpont.com"
+    competition_url = 'http://mvlsz.webpont.com/bajnoksagok/?szures[bajnoksag_id]=' + competition_id
     competition = sniff_date_from_webpage(competition_url)
 
     for match in competition:
