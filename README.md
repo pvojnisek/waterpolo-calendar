@@ -8,7 +8,8 @@ From Septemeber 2023 new version of https://waterpolo.hu version is available. T
 
 ## Sample calendars 2023/24:
 
- - https://waterpolo-calendar.vercel.app/waterpolo/768/KSI?nocache   #Budapest serdülő
+ - https://waterpolo-calendar.vercel.app/waterpolo/768/KSI?nocache   #Budapest ifi
+ - https://waterpolo-calendar.vercel.app/waterpolo/769/KSI?nocache   #Budapest serdülő
  - https://waterpolo-calendar.vercel.app/waterpolo/758/KSI?nocache   #Országos serdülő
 
 ## Sample calendars 2022/23:
@@ -18,7 +19,6 @@ Production:
  - https://waterpolo-calendar.vercel.app/waterpolo/704/KSI?nocache   #gyerek BP
  - https://waterpolo-calendar.vercel.app/waterpolo/703/KSI?nocache   #serdülő BP
  
-
 Preview: 
  - https://calendar-pvojnisek.vercel.app/waterpolo/680/KSI?nocache
  - https://calendar-pvojnisek.vercel.app/waterpolo/704/KSI?nocache
