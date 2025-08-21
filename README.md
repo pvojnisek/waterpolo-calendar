@@ -6,6 +6,12 @@ This utility generates calendars (ics files) from waterpolo competitions from th
 
 From Septemeber 2023 new version of https://waterpolo.hu version is available. These scripts will not work from the website anymore. The old version is still running at http://mvlsz.webpont.com This script is getting the data from that website till it is working.
 
+## Sample calendars 2025/26:
+
+- https://waterpolo-calendar.vercel.app/waterpolo/878/KSI?nocache    #KSI OB I.
+- https://waterpolo-calendar.vercel.app/waterpolo/880/KSI?nocache    #KSI Benu kupa
+- https://waterpolo-calendar.vercel.app/waterpolo/890/KSI?nocache    #KSI Országos Ifi
+
 ## Sample calendars 2024/25:
 
 - https://waterpolo-calendar.vercel.app/waterpolo/825/KSI?nocache    #KSI Országos Ifi
