@@ -1,3 +1,11 @@
+# DEPRECATED
+
+Ez a projekt nem fejlesztendő tovább. Az adatforrása (`mvlsz.webpont.com`) megszűnt, a Vercel deploy elavult cache-ből szolgált ki.
+
+Utódja: a `wp` repó a self-hosted Forgejón (`peter/wp`), Go nyelven, közvetlenül az MVLSZ databank API-ra épülve. A projektből átvett tudás: ICS naptárgenerálás, cache-elt szolgáltatás felépítése, csapatnév alapú szűrés.
+
+Ide ne commitolj.
+
 # Calendar generator for waterpolo competitions
 
 This utility generates calendars (ics files) from waterpolo competitions from the [MVLSZ - Hungarian Waterpolo Associations](https://waterpolo.hu) website.
